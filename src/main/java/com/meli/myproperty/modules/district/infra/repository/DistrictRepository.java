@@ -1,4 +1,4 @@
-package com.meli.myproperty.modules.district.repository;
+package com.meli.myproperty.modules.district.infra.repository;
 
 import com.meli.myproperty.modules.district.domain.District;
 

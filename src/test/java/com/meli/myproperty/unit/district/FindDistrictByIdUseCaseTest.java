@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.math.BigDecimal;
 
 import com.meli.myproperty.modules.district.domain.District;
-import com.meli.myproperty.modules.district.repository.DistrictRepository;
+import com.meli.myproperty.modules.district.infra.repository.DistrictRepository;
 import com.meli.myproperty.modules.district.usecases.FindDistrictById.FindDistrictByIdUseCase;
 
 import org.junit.jupiter.api.BeforeEach;

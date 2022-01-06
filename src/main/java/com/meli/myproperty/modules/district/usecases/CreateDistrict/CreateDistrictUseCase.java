@@ -5,7 +5,7 @@ import java.util.UUID;
 import com.meli.myproperty.modules.district.domain.District;
 import com.meli.myproperty.modules.district.dto.DistrictInput;
 import com.meli.myproperty.modules.district.dto.DistrictOutput;
-import com.meli.myproperty.modules.district.repository.DistrictRepository;
+import com.meli.myproperty.modules.district.infra.repository.DistrictRepository;
 
 public class CreateDistrictUseCase {
     private DistrictRepository districtRepository;

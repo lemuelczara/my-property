@@ -1,7 +1,7 @@
 package com.meli.myproperty.modules.district.usecases.FindDistrictById;
 
 import com.meli.myproperty.modules.district.domain.District;
-import com.meli.myproperty.modules.district.repository.DistrictRepository;
+import com.meli.myproperty.modules.district.infra.repository.DistrictRepository;
 
 public class FindDistrictByIdUseCase {
     private DistrictRepository districtRepository;

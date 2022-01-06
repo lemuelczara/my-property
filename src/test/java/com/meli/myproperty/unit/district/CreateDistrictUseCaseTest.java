@@ -6,8 +6,8 @@ import java.math.BigDecimal;
 
 import com.meli.myproperty.modules.district.dto.DistrictInput;
 import com.meli.myproperty.modules.district.dto.DistrictOutput;
-import com.meli.myproperty.modules.district.repository.DistrictRepository;
-import com.meli.myproperty.modules.district.repository.memory.DistrictRepositoryInMemory;
+import com.meli.myproperty.modules.district.infra.repository.DistrictRepository;
+import com.meli.myproperty.modules.district.infra.repository.memory.DistrictRepositoryInMemory;
 import com.meli.myproperty.modules.district.usecases.CreateDistrict.CreateDistrictUseCase;
 
 import org.junit.jupiter.api.BeforeEach;
