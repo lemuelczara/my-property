@@ -13,4 +13,9 @@ public class DistrictRepositoryInMemory implements DistrictRepository {
     public void save(District district) {
         this.districts.add(district);
     }
+
+    @Override
+    public District findById(String id) {
+        return this.districts.stream().filter(d -> d.getId().equalsIgnoreCase(id)).findFirst().orElse(null);
+    }    
 }
