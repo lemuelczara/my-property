@@ -1,8 +1,12 @@
 package com.meli.myproperty.unit.district;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.math.BigDecimal;
+import java.security.NoSuchAlgorithmException;
+import java.util.NoSuchElementException;
 
 import com.meli.myproperty.modules.district.domain.District;
 import com.meli.myproperty.modules.district.infra.repository.DistrictRepository;
@@ -29,6 +33,18 @@ public class FindDistrictByIdUseCaseTest {
         MockitoAnnotations.openMocks(this);
 
         useCase = new FindDistrictByIdUseCase(districtRepository);
+    }
+
+    @Test
+    public void shouldBeThrowIfDistrictNotFound() {
+        Mockito.when(districtRepository.findById("validId")).thenReturn(null);
+
+        NoSuchElementException exception = assertThrows(NoSuchElementException.class, () -> {
+            useCase.execute("validId");
+        });
+
+        assertEquals(exception.getClass(), new NoSuchElementException().getClass());
+        assertEquals(exception.getMessage(), "District not found!");
     }
 
     @Test
