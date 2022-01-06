@@ -1,5 +1,7 @@
 package com.meli.myproperty.modules.district.usecases.FindDistrictById;
 
+import java.util.NoSuchElementException;
+
 import com.meli.myproperty.modules.district.domain.District;
 import com.meli.myproperty.modules.district.infra.repository.DistrictRepository;
 
@@ -11,6 +13,12 @@ public class FindDistrictByIdUseCase {
     }
 
     public District execute(String id) {
-        return this.districtRepository.findById(id);
+        District district = this.districtRepository.findById(id);
+
+        if (district == null) {
+            throw new NoSuchElementException("District not found!");
+        }
+
+        return district;
     }
 }
