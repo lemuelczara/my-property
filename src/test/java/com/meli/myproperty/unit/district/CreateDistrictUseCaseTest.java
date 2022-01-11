@@ -3,6 +3,7 @@ package com.meli.myproperty.unit.district;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import com.meli.myproperty.modules.district.domain.District;
 import com.meli.myproperty.modules.district.dto.DistrictOutput;
 import com.meli.myproperty.modules.district.infra.repository.DistrictRepository;
 import com.meli.myproperty.modules.district.usecases.CreateDistrict.CreateDistrictUseCase;
@@ -11,6 +12,7 @@ import com.meli.myproperty.unit.district.mocks.MockDistrict;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 
 public class CreateDistrictUseCaseTest {
     private DistrictRepository districtRepository;
@@ -23,9 +25,20 @@ public class CreateDistrictUseCaseTest {
     }
 
     @Test
+    public void shouldBeCallsRepositoryWithCorrectValues() {
+        ArgumentCaptor<District> arg0 = ArgumentCaptor.forClass(District.class);
+
+        doNothing().when(districtRepository).save(arg0.capture());
+
+        sut.execute(MockDistrict.mockDistrictParams());
+
+        assertEquals(arg0.getValue().getName(), MockDistrict.mockDistrictParams().getName());
+    }
+
+    @Test
     public void shouldBeThrowIfRepositoryThrows() {
         doThrow(RuntimeException.class).when(districtRepository).save(any());
-        
+
         assertThrows(RuntimeException.class, () -> {
             sut.execute(MockDistrict.mockDistrictParams());
         });
@@ -35,7 +48,8 @@ public class CreateDistrictUseCaseTest {
     public void shouldBeCreateDistrict() {
         DistrictOutput output = sut.execute(MockDistrict.mockDistrictParams());
 
-        assertEquals(output.getName(), "validName");
+        assertNotNull(output);
+        assertEquals(output.getName(), MockDistrict.mockDistrictParams().getName());
     }
 
     private DistrictRepository creatDistrictRepository() {
