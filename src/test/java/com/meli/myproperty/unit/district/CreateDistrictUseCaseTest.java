@@ -23,6 +23,15 @@ public class CreateDistrictUseCaseTest {
     }
 
     @Test
+    public void shouldBeThrowIfRepositoryThrows() {
+        doThrow(RuntimeException.class).when(districtRepository).save(any());
+        
+        assertThrows(RuntimeException.class, () -> {
+            sut.execute(MockDistrict.mockDistrictParams());
+        });
+    }
+
+    @Test
     public void shouldBeCreateDistrict() {
         DistrictOutput output = sut.execute(MockDistrict.mockDistrictParams());
 
