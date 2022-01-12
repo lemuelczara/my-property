@@ -10,6 +10,7 @@ import com.meli.myproperty.modules.property.dto.PropertyInput;
 import com.meli.myproperty.modules.property.dto.PropertyOutput;
 import com.meli.myproperty.modules.property.infra.repository.PropertyRepository;
 import com.meli.myproperty.modules.room.domain.Room;
+import com.meli.myproperty.shared.exception.NotFoundElementException;
 
 public class CreatePropertyUseCase {
     private PropertyRepository propertyRepository;
@@ -24,6 +25,10 @@ public class CreatePropertyUseCase {
         Property property = new Property();
 
         District district = this.districtRepository.findById(input.getDistrictId());
+
+        if (district == null) {
+            throw new NotFoundElementException("District not found!");
+        }
 
         property.setId(UUID.randomUUID().toString());
         property.setName(input.getName());

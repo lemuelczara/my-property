@@ -1,8 +1,10 @@
 package com.meli.myproperty.unit.property;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.spy;
 
 import com.meli.myproperty.modules.district.infra.repository.DistrictRepository;
@@ -29,9 +31,16 @@ public class CreatePropertyUseCaseTest {
 
     @Test
     public void shouldBeThrowIfDistrictRepositoryThrows() {
-        doAnswer(answer -> new Exception()).when(districtRepository).findById(anyString());
+        doThrow(RuntimeException.class).when(districtRepository).findById(anyString());
 
-        assertThrows(Exception.class, () -> sut.execute(MockProperty.mockPropertyParams()));
+        assertThrows(RuntimeException.class, () -> sut.execute(MockProperty.mockPropertyParams()));
+    }
+
+    @Test
+    public void shouldBeThrowIfPropertyRepositoryThrows() {
+        doThrow(RuntimeException.class).when(propertyRepository).save(any());
+
+        assertThrows(RuntimeException.class, () -> sut.execute(MockProperty.mockPropertyParams()));
     }
 
     private PropertyRepository createPropertyRepository() {
