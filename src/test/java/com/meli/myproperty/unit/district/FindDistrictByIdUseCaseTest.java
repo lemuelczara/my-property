@@ -1,57 +1,37 @@
 package com.meli.myproperty.unit.district;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.spy;
 
-import java.math.BigDecimal;
-import java.util.NoSuchElementException;
-
-import com.meli.myproperty.modules.district.domain.District;
 import com.meli.myproperty.modules.district.infra.repository.DistrictRepository;
 import com.meli.myproperty.modules.district.usecases.FindDistrictById.FindDistrictByIdUseCase;
-import com.meli.myproperty.shared.exception.NotFoundElementException;
+import com.meli.myproperty.unit.district.mocks.DistrictRepositorySpy;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 
 public class FindDistrictByIdUseCaseTest {
-    public FindDistrictByIdUseCase useCase;
+    private DistrictRepository districtRepository;
+    private FindDistrictByIdUseCase sut;
 
-    @Mock
-    public DistrictRepository districtRepository;
-
-    public District makeFakeDistrict() {
-        return new District("1", "Central das Américas", BigDecimal.valueOf(20.0));
+    @BeforeEach()
+    public void setup() {
+        districtRepository = createDistrictRepository();
+        sut = new FindDistrictByIdUseCase(districtRepository);
     }
 
-    @BeforeEach
-    public void beforeEach() {
-        MockitoAnnotations.openMocks(this);
+    @Test()
+    public void shouldBeThrowIfRepositoryThrows() {
+        doAnswer(answer -> new Exception()).when(districtRepository).findById(anyString());
 
-        useCase = new FindDistrictByIdUseCase(districtRepository);
+        assertThrows(Exception.class, () -> sut.execute("validId"));
     }
 
-    @Test
-    public void shouldBeThrowIfDistrictNotFound() {
-        Mockito.when(districtRepository.findById("validId")).thenReturn(null);
+    private DistrictRepository createDistrictRepository() {
+        DistrictRepositorySpy mock = spy(DistrictRepositorySpy.class);
 
-        NotFoundElementException exception = assertThrows(NotFoundElementException.class, () -> {
-            useCase.execute("validId");
-        });
-
-        assertEquals(exception.getClass(), NotFoundElementException.class);
-        assertEquals(exception.getMessage(), "District not found!");
-    }
-
-    @Test
-    public void shouldBeFindDistricyById() {
-        Mockito.when(districtRepository.findById("validId")).thenReturn(makeFakeDistrict());
-
-        District district = useCase.execute("validId");
-
-        assertEquals(district.getName(), "Central das Américas");
+        return mock;
     }
 }

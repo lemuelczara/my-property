@@ -12,6 +12,7 @@ import com.meli.myproperty.unit.district.mocks.MockDistrict;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import org.mockito.ArgumentCaptor;
 
 public class CreateDistrictUseCaseTest {
@@ -53,7 +54,7 @@ public class CreateDistrictUseCaseTest {
     }
 
     private DistrictRepository creatDistrictRepository() {
-        DistrictRepositorySpy mock = mock(DistrictRepositorySpy.class);
+        DistrictRepositorySpy mock = spy(DistrictRepositorySpy.class);
 
         return mock;
     }
