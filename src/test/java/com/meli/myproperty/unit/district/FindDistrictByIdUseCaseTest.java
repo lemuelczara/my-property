@@ -22,9 +22,11 @@ import org.mockito.ArgumentCaptor;
 public class FindDistrictByIdUseCaseTest {
     private DistrictRepository districtRepository;
     private FindDistrictByIdUseCase sut;
+    private String districtId;
 
     @BeforeEach()
     public void setup() {
+        districtId = "anyId";
         districtRepository = createDistrictRepository();
         sut = new FindDistrictByIdUseCase(districtRepository);
     }
@@ -33,14 +35,14 @@ public class FindDistrictByIdUseCaseTest {
     public void shouldBeThrowIfRepositoryThrows() {
         doAnswer(answer -> new Exception()).when(districtRepository).findById(anyString());
 
-        assertThrows(Exception.class, () -> sut.execute("validId"));
+        assertThrows(Exception.class, () -> sut.execute(districtId));
     }
 
     @Test()
     public void shouldBeThrowIfRepositoryReturnsNull() {
         doReturn(null).when(districtRepository).findById(anyString());
 
-        NotFoundElementException exception = assertThrows(NotFoundElementException.class, () -> sut.execute("validId"));
+        NotFoundElementException exception = assertThrows(NotFoundElementException.class, () -> sut.execute(districtId));
 
         assertTrue(exception.getMessage().contains("District not found!"));
     }
@@ -51,9 +53,16 @@ public class FindDistrictByIdUseCaseTest {
 
         doCallRealMethod().when(districtRepository).findById(arg0.capture());
 
-        sut.execute("validId");
+        sut.execute(districtId);
 
-        assertEquals(arg0.getValue(), "validId");
+        assertEquals(arg0.getValue(), districtId);
+    }
+
+    @Test()
+    public void shouldBeReturnDistrict() {
+        var districtResult = sut.execute(districtId);
+
+        assertEquals(districtResult, DistrictRepositorySpy.findByIdResult);
     }
 
     private DistrictRepository createDistrictRepository() {

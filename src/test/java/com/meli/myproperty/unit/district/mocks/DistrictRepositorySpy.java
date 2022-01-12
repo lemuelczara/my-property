@@ -6,7 +6,7 @@ import com.meli.myproperty.modules.district.domain.District;
 import com.meli.myproperty.modules.district.infra.repository.DistrictRepository;
 
 public class DistrictRepositorySpy implements DistrictRepository {
-    private District findByIdResult = new District("validId", "validName", BigDecimal.valueOf(1));
+    public static District findByIdResult = new District("validId", "validName", BigDecimal.valueOf(1));
 
     @Override
     public void save(District district) {
