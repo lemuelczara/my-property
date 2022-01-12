@@ -6,7 +6,6 @@ import com.meli.myproperty.modules.room.dto.RoomInput;
 
 public class PropertyInput {
     private String name;
-
     private String districtId;
     private List<RoomInput> roomsInput;
 

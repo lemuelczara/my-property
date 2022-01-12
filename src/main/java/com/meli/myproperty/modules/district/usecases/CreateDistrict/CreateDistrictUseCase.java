@@ -16,7 +16,7 @@ public class CreateDistrictUseCase {
 
     public DistrictOutput execute(DistrictInput input) {
         District district = new District(UUID.randomUUID().toString(), input.getName(), input.getSquareMeterPrice());
-        
+
         this.districtRepository.save(district);
 
         DistrictOutput output = new DistrictOutput(district.getId(), district.getName());
