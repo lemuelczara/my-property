@@ -1,6 +1,7 @@
 package com.meli.myproperty.unit.property;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -11,6 +12,7 @@ import static org.mockito.Mockito.spy;
 
 import com.meli.myproperty.modules.district.infra.repository.DistrictRepository;
 import com.meli.myproperty.modules.property.domain.Property;
+import com.meli.myproperty.modules.property.dto.PropertyOutput;
 import com.meli.myproperty.modules.property.infra.repository.PropertyRepository;
 import com.meli.myproperty.modules.property.usecases.CreateProperty.CreatePropertyUseCase;
 import com.meli.myproperty.shared.exception.NotFoundElementException;
@@ -78,6 +80,14 @@ public class CreatePropertyUseCaseTest {
         sut.execute(MockProperty.mockPropertyParams());
 
         assertEquals(arg0.getValue(), PropertyRepositorySpy.saveParams);
+    }
+
+    @Test
+    public void shouldBeCreateProperty() {
+        PropertyOutput output = sut.execute(MockProperty.mockPropertyParams());
+
+        System.out.println(output.toString());
+        assertNotNull(output);
     }
 
     private PropertyRepository createPropertyRepository() {
