@@ -85,8 +85,7 @@ public class CreatePropertyUseCaseTest {
     @Test
     public void shouldBeCreateProperty() {
         PropertyOutput output = sut.execute(MockProperty.mockPropertyParams());
-
-        System.out.println(output.toString());
+        
         assertNotNull(output);
     }
 

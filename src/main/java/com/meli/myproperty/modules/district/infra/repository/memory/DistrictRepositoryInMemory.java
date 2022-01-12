@@ -3,9 +3,12 @@ package com.meli.myproperty.modules.district.infra.repository.memory;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Named;
+
 import com.meli.myproperty.modules.district.domain.District;
 import com.meli.myproperty.modules.district.infra.repository.DistrictRepository;
 
+@Named(value = "districtRepositoryInMemory")
 public class DistrictRepositoryInMemory implements DistrictRepository {
     private List<District> districts = new ArrayList<>();
 
