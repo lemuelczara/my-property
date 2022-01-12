@@ -1,12 +1,17 @@
 package com.meli.myproperty.unit.district;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.spy;
 
 import com.meli.myproperty.modules.district.infra.repository.DistrictRepository;
 import com.meli.myproperty.modules.district.usecases.FindDistrictById.FindDistrictByIdUseCase;
+import com.meli.myproperty.shared.exception.NotFoundElementException;
 import com.meli.myproperty.unit.district.mocks.DistrictRepositorySpy;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -27,6 +32,15 @@ public class FindDistrictByIdUseCaseTest {
         doAnswer(answer -> new Exception()).when(districtRepository).findById(anyString());
 
         assertThrows(Exception.class, () -> sut.execute("validId"));
+    }
+
+    @Test()
+    public void shouldBeThrowIfRepositoryReturnsNull() {
+        doReturn(null).when(districtRepository).findById(anyString());
+
+        NotFoundElementException exception = assertThrows(NotFoundElementException.class, () -> sut.execute("validId"));
+
+        assertTrue(exception.getMessage().contains("District not found!"));
     }
 
     private DistrictRepository createDistrictRepository() {
