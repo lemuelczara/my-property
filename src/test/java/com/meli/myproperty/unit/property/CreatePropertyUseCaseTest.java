@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doCallRealMethod;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.spy;
 
@@ -12,6 +13,7 @@ import com.meli.myproperty.modules.district.infra.repository.DistrictRepository;
 import com.meli.myproperty.modules.property.domain.Property;
 import com.meli.myproperty.modules.property.infra.repository.PropertyRepository;
 import com.meli.myproperty.modules.property.usecases.CreateProperty.CreatePropertyUseCase;
+import com.meli.myproperty.shared.exception.NotFoundElementException;
 import com.meli.myproperty.unit.district.mocks.DistrictRepositorySpy;
 import com.meli.myproperty.unit.district.mocks.MockProperty;
 import com.meli.myproperty.unit.district.mocks.PropertyRepositorySpy;
@@ -44,6 +46,16 @@ public class CreatePropertyUseCaseTest {
         doThrow(RuntimeException.class).when(propertyRepository).save(any());
 
         assertThrows(RuntimeException.class, () -> sut.execute(MockProperty.mockPropertyParams()));
+    }
+
+    @Test
+    public void shouldBeThrowIfDistrictRepositoryReturnsNull() {
+        doReturn(null).when(districtRepository).findById(anyString());
+
+        NotFoundElementException exception = assertThrows(NotFoundElementException.class, () -> sut.execute(MockProperty.mockPropertyParams()));
+
+        assertEquals(exception.getClass(), NotFoundElementException.class);
+        assertEquals(exception.getMessage(), "District not found!");
     }
 
     @Test
