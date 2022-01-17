@@ -3,6 +3,8 @@ package com.meli.myproperty.modules.property.usecases.CreateProperty;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import javax.inject.Named;
+
 import com.meli.myproperty.modules.district.domain.District;
 import com.meli.myproperty.modules.district.infra.repository.DistrictRepository;
 import com.meli.myproperty.modules.property.domain.Property;
@@ -12,11 +14,15 @@ import com.meli.myproperty.modules.property.infra.repository.PropertyRepository;
 import com.meli.myproperty.modules.room.domain.Room;
 import com.meli.myproperty.shared.exception.NotFoundElementException;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class CreatePropertyUseCase {
     private PropertyRepository propertyRepository;
     private DistrictRepository districtRepository;
 
-    public CreatePropertyUseCase(PropertyRepository propertyRepository, DistrictRepository districtRepository) {
+    public CreatePropertyUseCase(@Named(value = "propertyRepositoryInMemory") PropertyRepository propertyRepository,
+            DistrictRepository districtRepository) {
         this.propertyRepository = propertyRepository;
         this.districtRepository = districtRepository;
     }

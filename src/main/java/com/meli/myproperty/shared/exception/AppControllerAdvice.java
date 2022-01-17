@@ -23,6 +23,7 @@ public class AppControllerAdvice {
         HttpStatus unprocessableEntity = HttpStatus.UNPROCESSABLE_ENTITY;
 
         for (FieldError field : exception.getBindingResult().getFieldErrors()) {
+            System.out.println("Errors:\n" + field.getField() + ": " + field.getDefaultMessage());
             errors.put(field.getField(), field.getDefaultMessage());
         }
 
