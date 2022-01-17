@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(path = "/districts")
 public class CreateDistrictController {
-    private CreateDistrictUseCase useCase;
+    private CreateDistrictUseCase createDistrictUseCase;
 
-    public CreateDistrictController(CreateDistrictUseCase useCase) {
-        this.useCase = useCase;
+    public CreateDistrictController(CreateDistrictUseCase createDistrictUseCase) {
+        this.createDistrictUseCase = createDistrictUseCase;
     }
-
+    
     @PostMapping(path = "")
     public ResponseEntity<Object> save(@RequestBody DistrictInput districtInput) {
-        return new ResponseEntity<>(useCase.execute(districtInput), HttpStatus.CREATED);
+        return new ResponseEntity<>(createDistrictUseCase.execute(districtInput), HttpStatus.CREATED);
     }
 }
