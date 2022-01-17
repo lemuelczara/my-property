@@ -46,6 +46,15 @@ public class CreateDistrictControllerTest {
                 .andExpect(jsonPath("$.data.squareMeterPrice").exists());
     }
 
+    @Test
+    public void shouldBeReturns201IfDistrictSuccessfullyCreated() throws Exception {
+        mockMvc.perform(post("/districts")
+                .content(asJsonString(makeFakeDistrictInput("Bairro das Américas", 1L)))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isCreated());
+    }
+
     private String asJsonString(Object object) {
         try {
             return new ObjectMapper().writeValueAsString(object);

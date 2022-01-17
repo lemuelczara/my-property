@@ -5,7 +5,6 @@ import java.util.List;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
-import static org.hamcrest.Matchers.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -52,6 +51,17 @@ public class CreatePropertyControllerTest {
 
     @Test
     public void shouldBeReturns400IfPropertyNotFound() throws Exception {
+        mockMvc.perform(post("/properties")
+                .content(asJsonString(makeFakePropertyInput("Chácara Mourão", "1", "Quarto")))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.status").value("BAD_REQUEST"))
+                .andExpect(jsonPath("$.message").value("District not found!"));
+    }
+
+    @Test
+    public void shouldBeReturns201OnPropertyCreated() throws Exception {
         mockMvc.perform(post("/properties")
                 .content(asJsonString(makeFakePropertyInput("Chácara Mourão", "1", "Quarto")))
                 .contentType(MediaType.APPLICATION_JSON))
