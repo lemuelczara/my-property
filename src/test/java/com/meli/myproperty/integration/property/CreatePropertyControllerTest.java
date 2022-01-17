@@ -1,5 +1,6 @@
 package com.meli.myproperty.integration.property;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -7,7 +8,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import com.jayway.jsonpath.JsonPath;
+import com.meli.myproperty.modules.district.dto.DistrictInput;
 import com.meli.myproperty.modules.property.dto.PropertyInput;
 import com.meli.myproperty.modules.room.dto.RoomInput;
 
@@ -30,6 +32,10 @@ public class CreatePropertyControllerTest {
 
     public PropertyInput makeFakePropertyInput(String name, String districtId, String roomName) {
         return new PropertyInput(name, districtId, List.of(makeFakeRoomInput(roomName)));
+    }
+
+    public DistrictInput makeFakeDistrictInput(String name, Long value) {
+        return new DistrictInput(name, BigDecimal.valueOf(value));
     }
 
     @Test
@@ -61,14 +67,21 @@ public class CreatePropertyControllerTest {
     }
 
     @Test
-    public void shouldBeReturns201OnPropertyCreated() throws Exception {
-        mockMvc.perform(post("/properties")
-                .content(asJsonString(makeFakePropertyInput("Chácara Mourão", "1", "Quarto")))
+    public void shouldBeReturns201IfPropertySuccessfullyCreated() throws Exception {
+        var response = mockMvc.perform(post("/districts")
+                .content(asJsonString(makeFakeDistrictInput("Bairro das Américas", 1L)))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.status").value("BAD_REQUEST"))
-                .andExpect(jsonPath("$.message").value("District not found!"));
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        String id = JsonPath.read(response.getResponse().getContentAsString(), "$.id");
+
+        mockMvc.perform(post("/properties")
+                .content(asJsonString(makeFakePropertyInput("Chácara Mourão", id, "Quarto")))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isCreated());
     }
 
     private String asJsonString(Object object) {
