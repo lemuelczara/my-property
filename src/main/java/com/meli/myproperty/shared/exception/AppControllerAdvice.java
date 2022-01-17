@@ -36,4 +36,19 @@ public class AppControllerAdvice {
 
         return new ResponseEntity<>(response, unprocessableEntity);
     }
+
+    @ExceptionHandler(NotFoundElementException.class)
+    public ResponseEntity<AppErrorResponse> handleNotFoundElementException(
+        NotFoundElementException exception) {
+        HttpStatus badRequest = HttpStatus.BAD_REQUEST;
+
+        var response = AppErrorResponse.builder()
+                .timestamp(Date.from(Instant.now()))
+                .code(badRequest.value())
+                .status(badRequest.name())
+                .message(exception.getMessage())
+                .build();
+
+        return new ResponseEntity<>(response, badRequest);
+    }
 }
