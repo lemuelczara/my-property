@@ -38,6 +38,24 @@ public class FindDistrictByIdControllerTest {
                 .andExpect(jsonPath("$.code").value("400"));
     }
 
+    @Test
+    public void shouldBeReturn200IfDistrictExists() throws Exception {
+        var response = mockMvc.perform(post("/districts")
+                .content(asJsonString(makeFakeDistrictInput("Bairro das Palmeiras", 1L)))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        String id = JsonPath.read(response.getResponse().getContentAsString(), "$.id");
+
+        mockMvc.perform(get("/districts/{id}", id))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").exists())
+                .andExpect(jsonPath("$.name").value("Bairro das Palmeiras"));
+    }
+
     private String asJsonString(Object object) {
         try {
             return new ObjectMapper().writeValueAsString(object);
