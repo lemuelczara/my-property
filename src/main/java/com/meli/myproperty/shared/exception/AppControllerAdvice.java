@@ -27,29 +27,28 @@ public class AppControllerAdvice {
             errors.put(field.getField(), field.getDefaultMessage());
         }
 
-        var response = AppErrorResponse.builder()
-                .timestamp(Date.from(Instant.now()))
-                .code(unprocessableEntity.value())
-                .status(unprocessableEntity.name())
-                .message(exception.getMessage())
-                .data(errors)
-                .build();
+        AppErrorResponse errorResponse = new AppErrorResponse(
+                Date.from(Instant.now()),
+                unprocessableEntity.value(),
+                unprocessableEntity.name(),
+                exception.getMessage(),
+                errors);
 
-        return new ResponseEntity<>(response, unprocessableEntity);
+        return new ResponseEntity<>(errorResponse, unprocessableEntity);
     }
 
     @ExceptionHandler(NotFoundElementException.class)
     public ResponseEntity<AppErrorResponse> handleNotFoundElementException(
-        NotFoundElementException exception) {
+            NotFoundElementException exception) {
         HttpStatus badRequest = HttpStatus.BAD_REQUEST;
 
-        var response = AppErrorResponse.builder()
-                .timestamp(Date.from(Instant.now()))
-                .code(badRequest.value())
-                .status(badRequest.name())
-                .message(exception.getMessage())
-                .build();
+        AppErrorResponse errorResponse = new AppErrorResponse(
+                Date.from(Instant.now()),
+                badRequest.value(),
+                badRequest.name(),
+                exception.getMessage(),
+                null);
 
-        return new ResponseEntity<>(response, badRequest);
+        return new ResponseEntity<>(errorResponse, badRequest);
     }
 }
