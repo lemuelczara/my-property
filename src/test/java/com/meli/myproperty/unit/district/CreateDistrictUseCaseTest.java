@@ -3,12 +3,12 @@ package com.meli.myproperty.unit.district;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import com.meli.myproperty.mocks.DistrictRepositorySpy;
+import com.meli.myproperty.mocks.MockDistrict;
 import com.meli.myproperty.modules.district.domain.District;
 import com.meli.myproperty.modules.district.dto.DistrictOutput;
 import com.meli.myproperty.modules.district.infra.repository.DistrictRepository;
 import com.meli.myproperty.modules.district.usecases.CreateDistrict.CreateDistrictUseCase;
-import com.meli.myproperty.unit.district.mocks.DistrictRepositorySpy;
-import com.meli.myproperty.unit.district.mocks.MockDistrict;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

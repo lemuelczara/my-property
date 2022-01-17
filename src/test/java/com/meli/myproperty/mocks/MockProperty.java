@@ -1,4 +1,4 @@
-package com.meli.myproperty.unit.district.mocks;
+package com.meli.myproperty.mocks;
 
 import java.util.Arrays;
 

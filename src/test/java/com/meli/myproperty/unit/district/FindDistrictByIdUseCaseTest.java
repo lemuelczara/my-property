@@ -10,10 +10,10 @@ import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
 
+import com.meli.myproperty.mocks.DistrictRepositorySpy;
 import com.meli.myproperty.modules.district.infra.repository.DistrictRepository;
 import com.meli.myproperty.modules.district.usecases.FindDistrictById.FindDistrictByIdUseCase;
 import com.meli.myproperty.shared.exception.NotFoundElementException;
-import com.meli.myproperty.unit.district.mocks.DistrictRepositorySpy;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

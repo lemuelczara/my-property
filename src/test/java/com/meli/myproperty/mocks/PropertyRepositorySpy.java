@@ -1,4 +1,4 @@
-package com.meli.myproperty.unit.district.mocks;
+package com.meli.myproperty.mocks;
 
 import com.meli.myproperty.modules.property.domain.Property;
 import com.meli.myproperty.modules.property.infra.repository.PropertyRepository;

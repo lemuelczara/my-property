@@ -1,5 +1,7 @@
 package com.meli.myproperty.modules.district.usecases.CreateDistrict;
 
+import javax.validation.Valid;
+
 import com.meli.myproperty.modules.district.dto.DistrictInput;
 
 import org.springframework.http.HttpStatus;
@@ -18,8 +20,8 @@ public class CreateDistrictController {
         this.createDistrictUseCase = createDistrictUseCase;
     }
     
-    @PostMapping(path = "")
-    public ResponseEntity<Object> save(@RequestBody DistrictInput districtInput) {
+    @PostMapping
+    public ResponseEntity<Object> save(@Valid @RequestBody DistrictInput districtInput) {
         return new ResponseEntity<>(createDistrictUseCase.execute(districtInput), HttpStatus.CREATED);
     }
 }

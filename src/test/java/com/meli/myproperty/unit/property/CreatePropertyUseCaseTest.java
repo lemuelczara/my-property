@@ -10,15 +10,15 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.spy;
 
+import com.meli.myproperty.mocks.DistrictRepositorySpy;
+import com.meli.myproperty.mocks.MockProperty;
+import com.meli.myproperty.mocks.PropertyRepositorySpy;
 import com.meli.myproperty.modules.district.infra.repository.DistrictRepository;
 import com.meli.myproperty.modules.property.domain.Property;
 import com.meli.myproperty.modules.property.dto.PropertyOutput;
 import com.meli.myproperty.modules.property.infra.repository.PropertyRepository;
 import com.meli.myproperty.modules.property.usecases.CreateProperty.CreatePropertyUseCase;
 import com.meli.myproperty.shared.exception.NotFoundElementException;
-import com.meli.myproperty.unit.district.mocks.DistrictRepositorySpy;
-import com.meli.myproperty.unit.district.mocks.MockProperty;
-import com.meli.myproperty.unit.district.mocks.PropertyRepositorySpy;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
