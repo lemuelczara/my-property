@@ -4,15 +4,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doAnswer;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doCallRealMethod;
 import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.spy;
 
 import com.meli.myproperty.mocks.DistrictRepositorySpy;
 import com.meli.myproperty.modules.district.infra.repository.DistrictRepository;
 import com.meli.myproperty.modules.district.usecases.FindDistrictById.FindDistrictByIdUseCase;
+import com.meli.myproperty.shared.exception.BusinessException;
 import com.meli.myproperty.shared.exception.NotFoundElementException;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -22,25 +23,25 @@ import org.mockito.ArgumentCaptor;
 public class FindDistrictByIdUseCaseTest {
     private DistrictRepository districtRepository;
     private FindDistrictByIdUseCase sut;
-    private String districtId;
+    private Long districtId;
 
     @BeforeEach()
     public void setup() {
-        districtId = "anyId";
+        districtId = 1L;
         districtRepository = createDistrictRepository();
         sut = new FindDistrictByIdUseCase(districtRepository);
     }
 
     @Test()
     public void shouldBeThrowIfRepositoryThrows() {
-        doAnswer(answer -> new Exception()).when(districtRepository).findById(anyString());
+        doThrow(BusinessException.class).when(districtRepository).findById(anyLong());
 
-        assertThrows(Exception.class, () -> sut.execute(districtId));
+        assertThrows(BusinessException.class, () -> sut.execute(districtId));
     }
 
     @Test()
     public void shouldBeThrowIfRepositoryReturnsNull() {
-        doReturn(null).when(districtRepository).findById(anyString());
+        doReturn(null).when(districtRepository).findById(anyLong());
 
         NotFoundElementException exception = assertThrows(NotFoundElementException.class, () -> sut.execute(districtId));
 
@@ -49,7 +50,7 @@ public class FindDistrictByIdUseCaseTest {
 
     @Test()
     public void shouldBeCallRepositoryWithCorrectValues() {
-        ArgumentCaptor<String> arg0 = ArgumentCaptor.forClass(String.class);
+        ArgumentCaptor<Long> arg0 = ArgumentCaptor.forClass(Long.class);
 
         doCallRealMethod().when(districtRepository).findById(arg0.capture());
 

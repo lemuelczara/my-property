@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class DistrictOutput {
-    private String id;
+    private Long id;
     private String name;
 }

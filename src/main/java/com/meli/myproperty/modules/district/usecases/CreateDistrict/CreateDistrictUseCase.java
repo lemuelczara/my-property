@@ -1,7 +1,5 @@
 package com.meli.myproperty.modules.district.usecases.CreateDistrict;
 
-import java.util.UUID;
-
 import javax.inject.Named;
 
 import com.meli.myproperty.modules.district.domain.District;
@@ -15,12 +13,14 @@ import org.springframework.stereotype.Service;
 public class CreateDistrictUseCase {
     private DistrictRepository districtRepository;
 
-    public CreateDistrictUseCase(@Named(value = "districtRepositoryInMemory") DistrictRepository districtRepository) {
+    public CreateDistrictUseCase(@Named(value = "MySqlDistrictRepository") DistrictRepository districtRepository) {
         this.districtRepository = districtRepository;
     }
 
     public DistrictOutput execute(DistrictInput input) {
-        District district = new District(UUID.randomUUID().toString(), input.getName(), input.getSquareMeterPrice());
+        District district = new District();
+        district.setName(input.getName());
+        district.setSquareMeterPrice(input.getSquareMeterPrice());
 
         this.districtRepository.save(district);
 

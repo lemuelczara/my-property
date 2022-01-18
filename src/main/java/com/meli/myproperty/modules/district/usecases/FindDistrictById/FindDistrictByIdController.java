@@ -17,7 +17,7 @@ public class FindDistrictByIdController {
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<Object> findById(@PathVariable String id) {
+    public ResponseEntity<Object> findById(@PathVariable Long id) {
         return new ResponseEntity<>(findDistrictByIdUseCase.execute(id), HttpStatus.OK);
     }
 }

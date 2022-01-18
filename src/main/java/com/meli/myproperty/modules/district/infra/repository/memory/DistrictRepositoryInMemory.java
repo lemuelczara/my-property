@@ -8,7 +8,7 @@ import javax.inject.Named;
 import com.meli.myproperty.modules.district.domain.District;
 import com.meli.myproperty.modules.district.infra.repository.DistrictRepository;
 
-@Named(value = "districtRepositoryInMemory")
+@Named(value = "InMemoryDistrictRepository")
 public class DistrictRepositoryInMemory implements DistrictRepository {
     private List<District> districts = new ArrayList<>();
 
@@ -18,7 +18,7 @@ public class DistrictRepositoryInMemory implements DistrictRepository {
     }
 
     @Override
-    public District findById(String id) {
-        return this.districts.stream().filter(d -> d.getId().equalsIgnoreCase(id)).findFirst().orElse(null);
+    public District findById(Long id) {
+        return this.districts.stream().filter(d -> d.getId().equals(id)).findFirst().orElse(null);
     }    
 }

@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+  mp-mysql:
+    image: mysql
+    container_name: mp-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "mysql2022!"
+      MYSQL_DATABASE: "myproperty"
+    ports:
+      - "3306:3306"
+    volumes:
+      - "mp-mysql-data:/var/lib/mysql"
+      - "./src/main/resources/database:/docker-entrypoint-initdb.d"
+    networks:
+      - mysql-adminer-network
+
+  mp-adminer:
+    image: adminer
+    container_name: mp-adminer
+    ports:
+      - "9999:8080"
+    networks:
+      - mysql-adminer-network
+
+networks:
+  mysql-adminer-network:
+    driver: bridge
+
+volumes:
+  mp-mysql-data:

@@ -31,7 +31,7 @@ public class FindDistrictByIdControllerTest {
 
     @Test
     public void shouldBeReturn400IfDistrictNotFound() throws Exception {
-        mockMvc.perform(get("/districts/1"))
+        mockMvc.perform(get("/districts/918291"))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.status").value("BAD_REQUEST"))
@@ -47,7 +47,7 @@ public class FindDistrictByIdControllerTest {
                 .andExpect(status().isCreated())
                 .andReturn();
 
-        String id = JsonPath.read(response.getResponse().getContentAsString(), "$.id");
+        Integer id = JsonPath.read(response.getResponse().getContentAsString(), "$.id");
 
         mockMvc.perform(get("/districts/{id}", id))
                 .andDo(print())

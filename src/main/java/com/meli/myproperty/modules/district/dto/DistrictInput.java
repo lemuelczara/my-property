@@ -7,19 +7,27 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-
-@Data
-@AllArgsConstructor
 public class DistrictInput {
     
-    @NotNull(message = "The name field cannot be null!")
-    @NotEmpty(message = "The name field cannot be empty!")
-    @Size(min = 1, max = 45, message = "The name field cannot be longer than 45 characters!")
+    @NotNull(message = "O nome não pode ser nulo!")
+    @NotEmpty(message = "O nome não pode estar vazio!")
+    @Size(min = 1, max = 45, message = "O nome deve ter entre 1 e 45 caracteres!")
     private String name;
 
-    @NotNull(message = "The squareMeterPrice field cannot be null!")
-    @DecimalMax(value = "13.0", message = "The squareMeterPrice field must have a maximum of 13 digits!")
+    @NotNull(message = "O preço do metro quadrado não pode ser nulo!")
+    @DecimalMax(value = "50.0", message = "O preço do metro quadrado não pode ser maior que 50!")
     private BigDecimal squareMeterPrice;
+
+    public DistrictInput(String name, BigDecimal squareMeterPrice) {
+        this.name = name;
+        this.squareMeterPrice = squareMeterPrice;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public BigDecimal getSquareMeterPrice() {
+        return this.squareMeterPrice;
+    }
 }

@@ -9,6 +9,7 @@ import com.meli.myproperty.modules.district.domain.District;
 import com.meli.myproperty.modules.district.dto.DistrictOutput;
 import com.meli.myproperty.modules.district.infra.repository.DistrictRepository;
 import com.meli.myproperty.modules.district.usecases.CreateDistrict.CreateDistrictUseCase;
+import com.meli.myproperty.shared.exception.BusinessException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,9 +39,9 @@ public class CreateDistrictUseCaseTest {
 
     @Test
     public void shouldBeThrowIfRepositoryThrows() {
-        doThrow(RuntimeException.class).when(districtRepository).save(any());
+        doThrow(BusinessException.class).when(districtRepository).save(any());
 
-        assertThrows(RuntimeException.class, () -> {
+        assertThrows(BusinessException.class, () -> {
             sut.execute(MockDistrict.mockDistrictParams());
         });
     }
